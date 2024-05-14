@@ -2,7 +2,7 @@ import request from "supertest";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import createServer from "../../utils/server";
-import httpResponseMessages from "../../constants/httpResponseMessages";
+import HTTP_RESPONSE_MESSAGES from "../../constants/httpResponseMessages";
 import { TASKS_STATUS } from "../../constants/tasks";
 export const app = createServer();
 
@@ -63,7 +63,7 @@ describe.only(`Tasks CRUD API unit tests`, () => {
 
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.TASK_CREATE_SUCCESS,
+                message: HTTP_RESPONSE_MESSAGES.TASK_CREATE_SUCCESS,
                 data: {
                     title: 'My task test',
                     description: 'I am testing task',
@@ -83,7 +83,7 @@ describe.only(`Tasks CRUD API unit tests`, () => {
                 .set("authorization", `Bearer ${loggedInUserDetails.token}`);
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.TASK_FETCH_SUCCESS,
+                message: HTTP_RESPONSE_MESSAGES.TASK_FETCH_SUCCESS,
             });
             expect(body.success).toBeTruthy();
             expect(body.data.length).toBe(1);
@@ -96,7 +96,7 @@ describe.only(`Tasks CRUD API unit tests`, () => {
                 .set("authorization", `Bearer ${loggedInUserDetails.token}`);
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.TASK_FETCH_SUCCESS,
+                message: HTTP_RESPONSE_MESSAGES.TASK_FETCH_SUCCESS,
             });
             expect(body.success).toBeTruthy();
         });
@@ -120,7 +120,7 @@ describe.only(`Tasks CRUD API unit tests`, () => {
 
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.TASK_FETCH_SUCCESS,
+                message: HTTP_RESPONSE_MESSAGES.TASK_FETCH_SUCCESS,
             });
             expect(body.success).toBeTruthy();
             expect(body.data).toBeNull();
@@ -146,7 +146,7 @@ describe.only(`Tasks CRUD API unit tests`, () => {
 
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.TASK_UPDATE_SUCCESS,
+                message: HTTP_RESPONSE_MESSAGES.TASK_UPDATE_SUCCESS,
             });
             expect(body.success).toBeTruthy();
             expect(data.title).toBe(updateTask.title);
@@ -168,7 +168,7 @@ describe.only(`Tasks CRUD API unit tests`, () => {
 
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.TASK_UPDATE_SUCCESS,
+                message: HTTP_RESPONSE_MESSAGES.TASK_UPDATE_SUCCESS,
             });
             expect(body.success).toBeTruthy();
             expect(data.status).toBe(TASKS_STATUS.COMPLETED);
@@ -188,7 +188,7 @@ describe.only(`Tasks CRUD API unit tests`, () => {
 
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.TASK_UPDATE_SUCCESS,
+                message: HTTP_RESPONSE_MESSAGES.TASK_UPDATE_SUCCESS,
             });
             expect(body.success).toBeTruthy();
             expect(data.status).toBe(TASKS_STATUS.PENDING);
@@ -210,7 +210,7 @@ describe.only(`Tasks CRUD API unit tests`, () => {
 
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.TASK_DELETED_SUCCESS,
+                message: HTTP_RESPONSE_MESSAGES.TASK_DELETED_SUCCESS,
             });
             expect(body.success).toBeTruthy();
             expect(data.status).toBe(TASKS_STATUS.PENDING);

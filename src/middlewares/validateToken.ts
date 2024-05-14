@@ -3,9 +3,9 @@ import { Response, NextFunction } from "express";
 
 import { fetchOne } from "../providers/authentications";
 
-import {ENV_VARIABLES} from "../configurations/env";
+import { ENV_VARIABLES } from "../configurations/env";
 
-import httpResponseMessages from "../constants/httpResponseMessages";
+import HTTP_RESPONSE_MESSAGES from "../constants/httpResponseMessages";
 import { CustomRequest } from "../types/customRequest";
 
 const extractTokenFromHeader = (request: CustomRequest) => {
@@ -27,7 +27,7 @@ export const validateToken = async (
   if (!token) {
     return response.status(401).json({
       success: false,
-      message: httpResponseMessages.ACCESS_DENIED,
+      message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
       error: null,
     });
   }
@@ -39,7 +39,7 @@ export const validateToken = async (
     if (!userToken) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.ACCESS_DENIED,
+        message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
         error: null,
       });
     }
@@ -48,11 +48,11 @@ export const validateToken = async (
       _id: userToken.userId,
       tokens: token,
     });
-    
+
     if (!user) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.ACCESS_DENIED,
+        message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
         error: null,
       });
     }
@@ -61,7 +61,7 @@ export const validateToken = async (
   } catch (error) {
     return response.status(401).json({
       success: false,
-      message: httpResponseMessages.ACCESS_DENIED,
+      message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
       error: null,
     });
   }

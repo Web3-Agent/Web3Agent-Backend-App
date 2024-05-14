@@ -2,7 +2,7 @@ import request from "supertest";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import createServer from "../../utils/server";
-import httpResponseMessages from "../../constants/httpResponseMessages";
+import HTTP_RESPONSE_MESSAGES from "../../constants/httpResponseMessages";
 import { removeKeyFromObject } from "../../helpers/removeKeyFromObject";
 export const app = createServer();
 
@@ -49,7 +49,7 @@ describe(`Authentications CRUD API unit tests`, () => {
                 .send(createUserPayload);
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.USER_CREATED,
+                message: HTTP_RESPONSE_MESSAGES.USER_CREATED,
                 success: true,
             });
             expect(user.name).toBe(createUserPayload.name);
@@ -62,7 +62,7 @@ describe(`Authentications CRUD API unit tests`, () => {
                 .send(createUserPayload);
             expect(statusCode).toBe(409);
             expect(body).toMatchObject({
-                message: httpResponseMessages.USER_ALREADY_EXIST,
+                message: HTTP_RESPONSE_MESSAGES.USER_ALREADY_EXIST,
                 success: false,
             });
         });
@@ -75,9 +75,9 @@ describe(`Authentications CRUD API unit tests`, () => {
                 .send(wrongPayload);
             expect(statusCode).toBe(400);
             expect(body).toMatchObject({
-                message: httpResponseMessages.EMAIL_REQUIRED,
+                message: HTTP_RESPONSE_MESSAGES.EMAIL_REQUIRED,
                 success: false,
-                error: httpResponseMessages.BAD_REQUEST,
+                error: HTTP_RESPONSE_MESSAGES.BAD_REQUEST,
             });
         });
         it("shouldn't create user, name didn't send in payload", async () => {
@@ -89,9 +89,9 @@ describe(`Authentications CRUD API unit tests`, () => {
                 .send(wrongPayload);
             expect(statusCode).toBe(400);
             expect(body).toMatchObject({
-                error: httpResponseMessages.BAD_REQUEST,
+                error: HTTP_RESPONSE_MESSAGES.BAD_REQUEST,
                 success: false,
-                message: httpResponseMessages.NAME_REQUIRED,
+                message: HTTP_RESPONSE_MESSAGES.NAME_REQUIRED,
             });
         });
         it("shouldn't create user, password didn't send in payload", async () => {
@@ -103,9 +103,9 @@ describe(`Authentications CRUD API unit tests`, () => {
                 .send(wrongPayload);
             expect(statusCode).toBe(400);
             expect(body).toMatchObject({
-                error: httpResponseMessages.BAD_REQUEST,
+                error: HTTP_RESPONSE_MESSAGES.BAD_REQUEST,
                 success: false,
-                message: httpResponseMessages.PASSWORD_REQUIRED,
+                message: HTTP_RESPONSE_MESSAGES.PASSWORD_REQUIRED,
             });
         });
     });
@@ -122,7 +122,7 @@ describe(`Authentications CRUD API unit tests`, () => {
                 .send(loginCredentials);
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.LOGIN_SUCCESS,
+                message: HTTP_RESPONSE_MESSAGES.LOGIN_SUCCESS,
                 success: true,
             });
             expect(user.email).toBe(loginCredentials.email);
@@ -142,7 +142,7 @@ describe(`Authentications CRUD API unit tests`, () => {
 
             expect(statusCode).toBe(401);
             expect(body).toMatchObject({
-                message: httpResponseMessages.LOGIN_ERROR,
+                message: HTTP_RESPONSE_MESSAGES.LOGIN_ERROR,
                 success: false,
             });
         });
@@ -158,7 +158,7 @@ describe(`Authentications CRUD API unit tests`, () => {
                 .set("authorization", `Bearer ${loggedInUserDetails?.token || ""}`);
             expect(statusCode).toBe(200);
             expect(body).toMatchObject({
-                message: httpResponseMessages.VALID_TOKEN,
+                message: HTTP_RESPONSE_MESSAGES.VALID_TOKEN,
                 success: true,
             });
             expect(data.email).toBe(loginCredentials.email);
@@ -170,7 +170,7 @@ describe(`Authentications CRUD API unit tests`, () => {
                 .set("authorization", `Bearer ${invalidToken}`);
             expect(statusCode).toBe(500);
             expect(body).toMatchObject({
-                message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+                message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
                 success: false,
                 error: { name: "JsonWebTokenError", message: "invalid signature" },
             });

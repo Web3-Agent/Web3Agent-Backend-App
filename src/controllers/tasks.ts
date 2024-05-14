@@ -13,7 +13,7 @@ import {
   deleteById,
 } from "../providers/tasks";
 import { CustomRequest } from "../types/customRequest";
-import httpResponseMessages from "../constants/httpResponseMessages";
+import HTTP_RESPONSE_MESSAGES from "../constants/httpResponseMessages";
 import { transformTaskUpdatePayload } from "../helpers/tasks";
 import { TASKS_STATUS } from "../constants/tasks";
 
@@ -33,14 +33,14 @@ export const getTasks = async (request: CustomRequest, response: Response) => {
 
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.TASK_FETCH_SUCCESS,
+      message: HTTP_RESPONSE_MESSAGES.TASK_FETCH_SUCCESS,
       pagination,
       data,
     });
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }
@@ -54,13 +54,13 @@ export const getTask = async (request: CustomRequest, response: Response) => {
     const data = await fetchById(taskId, optionalQuery);
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.TASK_FETCH_SUCCESS,
+      message: HTTP_RESPONSE_MESSAGES.TASK_FETCH_SUCCESS,
       data,
     });
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }
@@ -76,13 +76,13 @@ export const addTask = async (request: CustomRequest, response: Response) => {
     const data = await create(requestPayload);
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.TASK_CREATE_SUCCESS,
+      message: HTTP_RESPONSE_MESSAGES.TASK_CREATE_SUCCESS,
       data,
     });
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }
@@ -100,13 +100,13 @@ export const updateTask = async (
     const data = await update(query, requestPayload);
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.TASK_UPDATE_SUCCESS,
+      message: HTTP_RESPONSE_MESSAGES.TASK_UPDATE_SUCCESS,
       data,
     });
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }
@@ -122,13 +122,13 @@ export const deleteTask = async (
     const data = await deleteById(taskId, optionalQuery);
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.TASK_DELETED_SUCCESS,
+      message: HTTP_RESPONSE_MESSAGES.TASK_DELETED_SUCCESS,
       data,
     });
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }
@@ -142,7 +142,7 @@ export const updateTaskStatus = async (
     if (!status) {
       return response.status(200).json({
         success: true,
-        message: httpResponseMessages.STATUS_MISSING,
+        message: HTTP_RESPONSE_MESSAGES.STATUS_MISSING,
         data: null,
       });
     }
@@ -157,13 +157,13 @@ export const updateTaskStatus = async (
     const data = await update(query, payload);
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.TASK_UPDATE_SUCCESS,
+      message: HTTP_RESPONSE_MESSAGES.TASK_UPDATE_SUCCESS,
       data,
     });
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }

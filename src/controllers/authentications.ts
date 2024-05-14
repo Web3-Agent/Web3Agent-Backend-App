@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { LoginType } from "../types/authentication";
-import httpResponseMessages from "../constants/httpResponseMessages";
-import {ENV_VARIABLES} from "../configurations/env";
+import HTTP_RESPONSE_MESSAGES from "../constants/httpResponseMessages";
+import { ENV_VARIABLES } from "../configurations/env";
 
 import { fetchOne, update, create } from "../providers/authentications";
 import { AUTH_CONSTANTS } from "../constants/authentications";
@@ -22,7 +22,7 @@ export const login = async (request: Request, response: Response) => {
     if (!user) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.LOGIN_ERROR,
+        message: HTTP_RESPONSE_MESSAGES.LOGIN_ERROR,
         data: loginUser,
       });
     }
@@ -32,7 +32,7 @@ export const login = async (request: Request, response: Response) => {
     if (!match) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.LOGIN_ERROR,
+        message: HTTP_RESPONSE_MESSAGES.LOGIN_ERROR,
         data: loginUser,
       });
     }
@@ -48,7 +48,7 @@ export const login = async (request: Request, response: Response) => {
     updatedUser = transformUserToReturnToClient(updatedUser);
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.LOGIN_SUCCESS,
+      message: HTTP_RESPONSE_MESSAGES.LOGIN_SUCCESS,
       data: {
         user: updatedUser,
         token,
@@ -57,7 +57,7 @@ export const login = async (request: Request, response: Response) => {
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }
@@ -79,7 +79,7 @@ export const logout = async (request: CustomRequest, response: Response) => {
     if (!token) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.LOGOUT_DENIED,
+        message: HTTP_RESPONSE_MESSAGES.LOGOUT_DENIED,
         error: null,
       });
     }
@@ -90,7 +90,7 @@ export const logout = async (request: CustomRequest, response: Response) => {
     if (!isValidToken) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.ACCESS_DENIED,
+        message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
         error: null,
       });
     }
@@ -101,13 +101,13 @@ export const logout = async (request: CustomRequest, response: Response) => {
     await update({ _id: user?._id }, updatePayload);
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.LOGOUT_SUCCESS,
+      message: HTTP_RESPONSE_MESSAGES.LOGOUT_SUCCESS,
       data: {},
     });
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }
@@ -120,7 +120,7 @@ export const validateToken = async (request: Request, response: Response) => {
     if (!token) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.ACCESS_DENIED,
+        message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
         error: null,
       });
     }
@@ -132,7 +132,7 @@ export const validateToken = async (request: Request, response: Response) => {
     if (!isValidToken) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.ACCESS_DENIED,
+        message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
         error: null,
       });
     }
@@ -145,20 +145,20 @@ export const validateToken = async (request: Request, response: Response) => {
     if (!user) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.ACCESS_DENIED,
+        message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
         error: null,
       });
     }
     user = transformUserToReturnToClient(user);
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.VALID_TOKEN,
+      message: HTTP_RESPONSE_MESSAGES.VALID_TOKEN,
       data: user,
     });
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }
@@ -171,7 +171,7 @@ export const register = async (request: Request, response: Response) => {
     if (!AUTH_CONSTANTS.passwordRegex.test(registerUser.password)) {
       return response.status(401).json({
         success: false,
-        message: httpResponseMessages.INVALID_PASSWORD_ERROR,
+        message: HTTP_RESPONSE_MESSAGES.INVALID_PASSWORD_ERROR,
         error: registerUser,
       });
     }
@@ -180,7 +180,7 @@ export const register = async (request: Request, response: Response) => {
     if (checkUser) {
       return response.status(409).json({
         success: false,
-        message: httpResponseMessages.USER_ALREADY_EXIST,
+        message: HTTP_RESPONSE_MESSAGES.USER_ALREADY_EXIST,
         error: registerUser,
       });
     }
@@ -206,13 +206,13 @@ export const register = async (request: Request, response: Response) => {
     updatedUser = transformUserToReturnToClient(updatedUser);
     return response.status(200).json({
       success: true,
-      message: httpResponseMessages.USER_CREATED,
+      message: HTTP_RESPONSE_MESSAGES.USER_CREATED,
       data: { user: updatedUser, token },
     });
   } catch (error) {
     return response.status(500).json({
       success: false,
-      message: httpResponseMessages.INTERNAL_SERVER_ERROR,
+      message: HTTP_RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR,
       error,
     });
   }
