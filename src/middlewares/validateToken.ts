@@ -1,62 +1,34 @@
 import jwt from "jsonwebtoken";
 import { Response, NextFunction } from "express";
-
-import { fetchOne } from "../providers/authentications";
+import { ethers } from "ethers";
+import { fetchOne } from "../providers/user";
 
 import { ENV_VARIABLES } from "../configurations/env";
 
 import HTTP_RESPONSE_MESSAGES from "../constants/httpResponseMessages";
 import { CustomRequest } from "../types/customRequest";
 
-const extractTokenFromHeader = (request: CustomRequest) => {
-  if (
-    request.headers.authorization &&
-    request.headers.authorization.split(" ")[0] === "Bearer"
-  ) {
-    return request.headers.authorization.split(" ")[1];
-  }
-  return undefined;
-};
-
-export const validateToken = async (
+export const validateAccess = async (
   request: CustomRequest,
   response: Response,
   next: NextFunction
 ) => {
-  let token = extractTokenFromHeader(request);
-  if (!token) {
-    return response.status(401).json({
-      success: false,
-      message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
-      error: null,
-    });
-  }
-  token = token.replace(/\"/g, "");
-
   try {
-    const userToken: any = jwt.verify(token, ENV_VARIABLES.JWT_SECRET);
-
-    if (!userToken) {
-      return response.status(401).json({
-        success: false,
-        message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
-        error: null,
-      });
-    }
-
-    const user = await fetchOne({
-      _id: userToken.userId,
-      tokens: token,
-    });
+    let { walletaddress, signature } = request.headers;
+    const walletAddress = walletaddress?.toString()?.toLowerCase();
+    const query = { walletAddress: { '$regex': walletAddress, $options: 'i' } };
+    const user = await fetchOne(query);
 
     if (!user) {
-      return response.status(401).json({
-        success: false,
-        message: HTTP_RESPONSE_MESSAGES.ACCESS_DENIED,
-        error: null,
-      });
+      throw new Error('USER_NOT_EXISTS')
     }
-    request.user = user;
+    const { nonce, } = user;
+    const decodedAddress = ethers.verifyMessage(
+      nonce as string,
+      signature as string
+    );
+
+    if (walletAddress !== decodedAddress.toLowerCase()) { throw new Error('SIGNATURE_VALIDATION_FAILED') }
     next();
   } catch (error) {
     return response.status(401).json({
@@ -67,4 +39,4 @@ export const validateToken = async (
   }
 };
 
-export default validateToken;
+export default validateAccess;
