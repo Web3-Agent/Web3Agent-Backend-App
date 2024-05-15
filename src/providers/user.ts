@@ -1,18 +1,19 @@
-import UserModel from "../models/users";
+import UserModel from "../models/user";
 
-export const create = async (payload: any = {}) => {
+export const create = async (object: any = {}) => {
   try {
-    const result = await UserModel.create(payload);
+    const result = await UserModel.create(object);
     return result;
   } catch (error) {
     throw error;
   }
 };
 
-export const update = async (query: any = {}, payload: any = {}) => {
+export const update = async (query: any = {}, object: any = {}, options = {}) => {
   try {
-    const result = await UserModel.findOneAndUpdate(query, payload, {
+    const result = await UserModel.findOneAndUpdate(query, object, {
       new: true,
+      ...options
     });
     return result;
   } catch (error) {
@@ -71,3 +72,12 @@ export const countDocuments = async (query: any = {}) => {
     throw error;
   }
 };
+
+export const updateOne = async (query = {}, object = {}, options = {}) => {
+  try {
+    const result = await UserModel.updateOne(query, object, options);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}

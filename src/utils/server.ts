@@ -1,10 +1,10 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import HTTP_RESPONSE_MESSAGES from "../constants/httpResponseMessages";
-import authenticationRouter from "../routes/authentications";
-import TaskRouter from "../routes/tasks";
+import userRouter from "../routes/user";
 import morgan from "morgan";
 import CompileContractRouter from "../routes/compile-contract";
+import ChatRouter from "../routes/chat";
 
 export function createServer() {
   const app: Express = express();
@@ -17,9 +17,9 @@ export function createServer() {
   app.use(morgan("dev"));
 
   // Route endpoints
-  app.use("/api/v1/task/", TaskRouter);
-  app.use("/api/v1/authentication/", authenticationRouter);
+  app.use("/api/v1/user/", userRouter);
   app.use("/api/v1/compile-contract/", CompileContractRouter);
+  app.use("/api/v1/chat/", ChatRouter);
 
   app.get("/", (request: Request, response: Response) => {
     return response.status(200).json({

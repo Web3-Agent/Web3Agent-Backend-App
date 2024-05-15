@@ -24,7 +24,9 @@ const HTTP_RESPONSE_MESSAGES = {
   PASSWORD_REQUIRED: "Password is required!",
   CONTRACT_COMPILE_SUCCESS: 'Contract compiled successfully!',
   CONTRACT_COMPILE_FAILED: 'Contract compilation failed!',
-
+  CHAT_RESPONSE_GENERATION_FAILED: 'Unable to generate chat response!',
+  WALLET_ADDRESS_MISSING: 'Wallet address is missing!',
+  NONCE_GENERATED: 'Nonce has been generated!'
 };
 
 export default HTTP_RESPONSE_MESSAGES;

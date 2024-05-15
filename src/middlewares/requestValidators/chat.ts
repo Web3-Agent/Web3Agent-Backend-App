@@ -3,20 +3,20 @@ import joi from "joi";
 import { CustomRequest } from "../../types/customRequest";
 import { error } from "./response";
 
-const compileContractRequestSchema = {
-    contractName: joi.string().trim().optional(),
-    sourceCode: joi.string().trim().required(),
-    constructorArgs: joi.array().optional(),
-    chainName: joi.string().trim().optional(),
+const chatRequestSchema = {
+    messages: joi.array().required(),
+    functions: joi.array().required(),
+    function_call: joi.string().optional(),
+    requestId: joi.string().trim().optional(),
 };
 
 
-export const compileContractValidation = (
+export const chatRequestValidation = (
     request: CustomRequest,
     response: Response,
     next: NextFunction
 ) => {
-    const requestBodySchema = joi.object(compileContractRequestSchema);
+    const requestBodySchema = joi.object(chatRequestSchema);
     const requestBodyValidation = requestBodySchema.validate(request.body);
     if (requestBodyValidation.error) {
         return error(requestBodyValidation.error, response);
@@ -25,6 +25,10 @@ export const compileContractValidation = (
     }
 };
 
+
+
+
+
 export default {
-    compileContractValidation,
+    chatRequestValidation,
 };
