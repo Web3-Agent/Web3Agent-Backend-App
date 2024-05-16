@@ -13,8 +13,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@covalenthq/client-sdk": "^1.0.2",
     "ai": "^3.1.8",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
+    "bignumber.js": "^9.1.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ethers": "^6.12.1",
