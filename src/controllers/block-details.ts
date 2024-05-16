@@ -23,7 +23,7 @@ const transformBlockDetails = (block: any, provider: string) => {
                 mining_cost: convertHexToString(block.blobGasUsed),
             }
         }
-        default:
+        case DATA_PROVIDER_MAPPING.COVALENTHQ: {
             return {
                 block_hash: block.block_hash,
                 signed_at: block.signed_at,
@@ -34,11 +34,14 @@ const transformBlockDetails = (block: any, provider: string) => {
                 gas_limit: block.gas_limit,
                 mining_cost: block.mining_cost,
             }
+        }
+        default:
+            throw new Error(HTTP_RESPONSE_MESSAGES.UNKNOWN_DATA_SOURCE)
     }
 
 }
 
-export const rpcGetBlockDetailsByNumberV2 = async (rpcUrl: string, method: string = 'eth_getBlockByNumber', blockNumber: any = 'latest') => {
+export const rpcGetBlockDetailsByNumber = async (rpcUrl: string, method: string = 'eth_getBlockByNumber', blockNumber: any = 'latest') => {
     if (!rpcUrl && typeof rpcUrl !== "string") {
         throw new Error(HTTP_RESPONSE_MESSAGES.INVALID_OR_MISSING_RPC_URL);
     }
@@ -66,7 +69,7 @@ export const getBlockDetailsByNumber = async (request: CustomRequest, response: 
         switch (provider) {
             case DATA_PROVIDER_MAPPING.BLOCKPI: {
                 const networkConfig: any = getNetworkConfiguration(network, provider);
-                result = await rpcGetBlockDetailsByNumberV2(networkConfig.RPC_URL, networkConfig.BLOCK_DETAILS_BY_NUMBER_METHOD, blockNumber);
+                result = await rpcGetBlockDetailsByNumber(networkConfig.RPC_URL, networkConfig.BLOCK_DETAILS_BY_NUMBER_METHOD, blockNumber);
                 result = result?.data?.result || null;
                 if (!result) {
                     throw new Error(HTTP_RESPONSE_MESSAGES.NO_DATA_FOUND);

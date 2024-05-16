@@ -3,10 +3,16 @@ import controllers from "../controllers/compile-contract";
 import validator from "../middlewares/requestValidators/compile-contract";
 import validateAccess from "../middlewares/validateToken";
 import { CustomRequest } from "../types/customRequest";
+import { getTransactionDetailsByHash } from "../controllers/transaction-details";
 import { getBlockDetailsByNumber } from "../controllers/block-details";
+import { getGasPrice } from "../controllers/gas-price";
+
 const DataApiRouter: Router = Router();
+
 const ACTIONS = {
-    BLOCK_DETAILS_BY_BLOCK_NUMBER: 'BLOCK_DETAILS_BY_BLOCK_NUMBER'
+    BLOCK_DETAILS_BY_BLOCK_NUMBER: 'BLOCK_DETAILS_BY_BLOCK_NUMBER',
+    TRANSACTION_DETAILS_BY_HASH: 'TRANSACTION_DETAILS_BY_HASH',
+    GAS_PRICE: 'GAS_PRICE'
 }
 const navigateController = (request: CustomRequest, response: Response) => {
     try {
@@ -15,6 +21,10 @@ const navigateController = (request: CustomRequest, response: Response) => {
         switch (action) {
             case ACTIONS.BLOCK_DETAILS_BY_BLOCK_NUMBER:
                 return getBlockDetailsByNumber(request, response)
+            case ACTIONS.TRANSACTION_DETAILS_BY_HASH:
+                return getTransactionDetailsByHash(request, response)
+            case ACTIONS.GAS_PRICE:
+                return getGasPrice(request, response)
             default:
                 return response.status(400).json({
                     success: false,

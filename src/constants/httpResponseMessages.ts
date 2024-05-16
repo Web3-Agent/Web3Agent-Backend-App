@@ -29,6 +29,8 @@ const HTTP_RESPONSE_MESSAGES = {
   NONCE_GENERATED: 'Nonce has been generated!',
   UNKNOWN_DATA_SOURCE: 'Unknown data source request!',
   BLOCK_DETAILS_FETCHED: 'Block details successfully fetched!',
+  TRANSACTION_DETAILS_FETCHED: 'Transaction details successfully fetched!',
+  GAS_PRICE_DETAILS_FETCHED: 'Gas price details successfully fetched!',
   INVALID_OR_MISSING_RPC_URL: "INVALID_OR_MISSING_RPC_URL",
   NO_NETWORK_FOUND: "No network found!",
   NO_NETWORK_CONFIG_FOUND: "No network config found!",
