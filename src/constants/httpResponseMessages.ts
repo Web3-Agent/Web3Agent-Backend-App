@@ -34,6 +34,8 @@ const HTTP_RESPONSE_MESSAGES = {
   INVALID_OR_MISSING_RPC_URL: "INVALID_OR_MISSING_RPC_URL",
   NO_NETWORK_FOUND: "No network found!",
   NO_NETWORK_CONFIG_FOUND: "No network config found!",
+  TOKEN_BALANCE_FETCHED: 'Token balance successfully fetched!',
+  LATEST_TOKEN_FETCHED: 'Latest tokens successfully fetched!',
 };
 
 export default HTTP_RESPONSE_MESSAGES;

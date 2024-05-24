@@ -55,14 +55,12 @@ export const createChatCompletion = async (request: CustomRequest, response: Res
                 // })
             }
         })
-        console.log('👉🏻 Line 57 : ', stream, res);
         // const readable = new WritableStream({
         //     write() { }
         // });
         // readable.pipe(stream);
         return new StreamingTextResponse(stream)
     } catch (error) {
-        console.log('👉🏻 Line 60 : ', error);
         response.status(400).json({ message: HTTP_RESPONSE_MESSAGES.CHAT_RESPONSE_GENERATION_FAILED, success: false })
     }
 }
