@@ -14,9 +14,9 @@ export const getApproveERC20TokenCalldata = async (request: Request, response: R
         const {userAddress, fromAddress, toAddress , amount} = request.body;
 
         const erc20Interface = new ethers.Interface(ERC20abi);
-        const encodedCall = erc20Interface.encodeFunctionData("approve",[toAddress,amount])
-        response.status(200).json({ message: "APPROVAL SUCCESS", success: true, data: {calldata: encodedCall,to: fromAddress, from: userAddress,value: 0}});
+        const encodedCall = erc20Interface.encodeFunctionData("approve",[toAddress,amount]);
         console.log(encodedCall);
+        response.status(200).json({ message: "APPROVAL SUCCESS", success: true, data: {calldata: encodedCall,to: fromAddress, from: userAddress,value: 0}})
     }catch(e){
         response.status(400).json({ message: "APPROVAL FAILED", success: false, data: {}});
         console.log(e);
@@ -28,9 +28,8 @@ export const getSendERC20TokenCalldata = async (request: Request, response: Resp
         const {userAddress ,fromAddress, toAddress , amount} = request.body;
         const erc20Interface = new ethers.Interface(ERC20abi);
         const encodedCall = erc20Interface.encodeFunctionData("transfer",[toAddress,amount])
-
-        response.status(200).json({ message: "TRANSFER SUCCESS", success: true, data: {calldata: encodedCall,to: fromAddress,from: userAddress ,value: 0}});
         console.log(encodedCall);
+        response.status(200).json({ message: "TRANSFER SUCCESS", success: true, data: {calldata: encodedCall,to: fromAddress,from: userAddress ,value: 0}});
     }catch(e){
         response.status(400).json({ message: "TRANSFER FAILED", success: false, data: {}});
         console.log(e);
@@ -42,8 +41,8 @@ export const getWrapTokenCalldata = async (request: Request, response: Response)
         const {userAddress,amount} = request.body;
         const wETHInterface = new ethers.Interface(WETHabi);
         const encodedCall = wETHInterface.encodeFunctionData("deposit",[])
-        response.status(200).json({ message: "WRAPPING SUCCESS", success: true, data: {calldata: encodedCall,to: CONTRACT_ADDRESSES.WBNB, from: userAddress,value: amount}});
         console.log(encodedCall);
+        response.status(200).json({ message: "WRAPPING SUCCESS", success: true, data: {calldata: encodedCall,to: CONTRACT_ADDRESSES.WBNB, from: userAddress,value: amount}});
     }catch(e){
         response.status(400).json({ message: "WRAPPING FAILED", success: false, data: {}});
         console.log(e);
@@ -55,8 +54,8 @@ export const getUnwrapTokenCalldata = async (request: Request, response: Respons
         const {userAddress,amount} = request.body;
         const wETHInterface = new ethers.Interface(WETHabi);
         const encodedCall = wETHInterface.encodeFunctionData("withdraw",[amount])
-        response.status(200).json({ message: "UNWRAPPING SUCCESS", success: true, data: {calldata: encodedCall,to: CONTRACT_ADDRESSES.WBNB, from: userAddress, value: 0}});
         console.log(encodedCall);
+        response.status(200).json({ message: "UNWRAPPING SUCCESS", success: true, data: {calldata: encodedCall,to: CONTRACT_ADDRESSES.WBNB, from: userAddress, value: 0}});
     }catch(e){
         response.status(400).json({ message: "UNWRAPPING FAILED", success: false, data: {}});
         console.log(e);
@@ -69,6 +68,7 @@ export const getSwapErc20TokenToTokenCalldata = async (request: Request, respons
         const minAmount = (ethers.toBigInt(amount) * (ethers.toBigInt(10000) - ethers.toBigInt(slippage))) / ethers.toBigInt(10000);
         const pancakeSwapInterface = new ethers.Interface(PancakeSwapAbi);
         const encodedCall = pancakeSwapInterface.encodeFunctionData("swapTokensForExactTokens",[amount,minAmount,[fromToken,toToken],userAddress,(Date.now() + 30).toString()])
+        console.log(encodedCall);
         response.status(200).json({ message: "SWAPPING SUCCESS", success: true, data: {calldata: encodedCall,to: CONTRACT_ADDRESSES.PANCAKESWAP_ROUTER, from: userAddress, value: 0}});
     }catch(e){
         response.status(400).json({ message: "SWAPPING FAILED", success: false, data: {}});
@@ -81,6 +81,7 @@ export const getVenusDepositCalldata = async (request: Request, response: Respon
         const {userAddress,fromToken,amount} = request.body;
         const venusInterface = new ethers.Interface(VenusAbi);
         const encodedCall = venusInterface.encodeFunctionData("mint",[amount])
+        console.log(encodedCall);
         response.status(200).json({ message: "VENUS DEPOSIT SUCCESS", success: true, data: {calldata: encodedCall,to: fromToken, from: userAddress, value: 0}});
     }catch(e){
         response.status(400).json({ message: "VENUS DEPOSIT FAILED", success: false, data: {}});
@@ -93,6 +94,7 @@ export const getVenusRedeemCalldata = async (request: Request, response: Respons
         const {userAddress,fromToken,amount} = request.body;
         const venusInterface = new ethers.Interface(VenusAbi);
         const encodedCall = venusInterface.encodeFunctionData("redeem",[amount])
+        console.log(encodedCall);
         response.status(200).json({ message: "VENUS DEPOSIT SUCCESS", success: true, data: {calldata: encodedCall,to: fromToken,from: userAddress ,value: 0}});
     }catch(e){
         response.status(400).json({ message: "VENUS DEPOSIT FAILED", success: false, data: {}});
@@ -118,6 +120,7 @@ export const getSwapEnsoCalldata = async (request: Request, response: Response) 
        const ensoResponse = await axios.get("https://api.enso.finance/api/v1/shortcuts/route?"+ `${qs.stringify(params)}`,{
         headers: { Authorization: `Bearer ${ENV_VARIABLES.ENSO_API_KEY}` }
        })
+       console.log(ensoResponse);
         response.status(200).json({ message: "ENSO SUCCESS", success: true, data: {calldata: ensoResponse.data.tx.data,toAddress: ensoResponse.data.tx.to,from: userAddress ,value: ensoResponse.data.tx.value}});
     }catch(e){
         response.status(400).json({ message: "ENSO FAILED", success: false, data: {}});
