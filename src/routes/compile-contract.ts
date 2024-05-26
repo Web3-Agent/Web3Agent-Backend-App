@@ -6,9 +6,9 @@ const CompileContractRouter: Router = Router();
 
 CompileContractRouter.post(
     "/",
-    validateAccess,
+    // validateAccess,
     // validator.compileContractValidation,
-    // controllers.compileContract
+    controllers.compileContract
 );
 
 

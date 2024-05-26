@@ -9,10 +9,12 @@ import HTTP_RESPONSE_MESSAGES from "../constants/httpResponseMessages";
 
 export const compileContract = async (request: CustomRequest, response: Response) => {
     try {
-        const { contractName, constructorArgs, sourceCode, chainName } = request.body;
+        const { contractName, constructorArgs = [], sourceCode, chainName } = request.body;
         const compiledContract = await deployContractCompile({ sourceCode, constructorArgs, chainName, contractName });
         response.status(200).json({ message: HTTP_RESPONSE_MESSAGES.CONTRACT_COMPILE_SUCCESS, success: true, data: compiledContract })
     } catch (error) {
+        console.log('👉🏻 Line 16 : ', error);
+
         response.status(400).json({ message: HTTP_RESPONSE_MESSAGES.CONTRACT_COMPILE_FAILED, success: false })
     }
 }
@@ -91,10 +93,11 @@ async function deployContractCompile({
         }
     }
     const contract = output.contracts[fileName]
-
     // Get the contract ABI and bytecode
-    const abi = contract[contractName].abi
-    let bytecode = contract[contractName].evm.bytecode.object
+    // TODO: make dynamic 
+    const contractKey = Object.keys(contract)[0]
+    const abi = contract[contractKey].abi
+    let bytecode = contract[contractKey].evm.bytecode.object
     if (!bytecode.startsWith('0x')) {
         bytecode = '0x' + bytecode
     }
