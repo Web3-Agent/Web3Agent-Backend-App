@@ -110,17 +110,17 @@ export const getSwapEnsoCalldata = async (request: Request, response: Response) 
         spender: userAddress,
         receiver: userAddress,
         tokenIn: fromToken,
-        amountIn: amount,
+        amountIn: amount.toString(),
         tokenOut: toToken,
         routingStrategy: "router",
         chainId: chainId,
         slippage: slippage,
-        tokenInAmountToApprove: amount
+        tokenInAmountToApprove: amount.toString()
        }
        const ensoResponse = await axios.get("https://api.enso.finance/api/v1/shortcuts/route?"+ `${qs.stringify(params)}`,{
         headers: { Authorization: `Bearer ${ENV_VARIABLES.ENSO_API_KEY}` }
        })
-       console.log(ensoResponse);
+       console.log(ensoResponse.data.tx);
         response.status(200).json({ message: "ENSO SUCCESS", success: true, data: {calldata: ensoResponse.data.tx.data,toAddress: ensoResponse.data.tx.to,from: userAddress ,value: ensoResponse.data.tx.value}});
     }catch(e){
         response.status(400).json({ message: "ENSO FAILED", success: false, data: {}});

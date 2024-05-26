@@ -27,7 +27,7 @@ const txnController = (request: any, response: any) => {
             case ACTIONS.APPROVE_ERC20_TOKEN:
                 return getApproveERC20TokenCalldata(request, response);
             case ACTIONS.SWAP_ERC20_TOKEN:
-                return getSwapErc20TokenToTokenCalldata(request, response);
+                return getSwapEnsoCalldata(request, response);
             case ACTIONS.WRAP_TOKEN:
                 return getWrapTokenCalldata(request, response);
             case ACTIONS.UNWRAP_TOKEN:
@@ -36,8 +36,8 @@ const txnController = (request: any, response: any) => {
                 return getVenusDepositCalldata(request, response);
             case ACTIONS.VENUS_REDEEM:
                 return getVenusRedeemCalldata(request, response);
-            case ACTIONS.ENSO_SWAP:
-                return getSwapEnsoCalldata(request, response);
+            // case ACTIONS.ENSO_SWAP:
+            //     return getSwapEnsoCalldata(request, response);
             default:
                 return response.status(400).json({
                     success: false,
