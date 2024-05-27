@@ -1,7 +1,7 @@
 import { Router, Response } from "express";
 import controllers from "../controllers/compile-contract";
 import { CustomRequest } from "../types/customRequest";
-import { getSendERC20TokenCalldata, getApproveERC20TokenCalldata, getSwapErc20TokenToTokenCalldata ,getUnwrapTokenCalldata, getWrapTokenCalldata, getVenusDepositCalldata, getVenusRedeemCalldata, getSwapEnsoCalldata } from "../controllers/calldata-txn";
+import { getSendERC20TokenCalldata, getApproveERC20TokenCalldata, getSwapErc20TokenToTokenCalldata ,getUnwrapTokenCalldata, getWrapTokenCalldata, getVenusDepositCalldata, getVenusRedeemCalldata, getSwapEnsoCalldata, getLifiSwap } from "../controllers/calldata-txn";
 
 
 const TxnApiRouter: Router = Router();
@@ -14,7 +14,8 @@ const ACTIONS = {
     UNWRAP_TOKEN: "UNWRAP_TOKEN",
     VENUS_DEPOSIT: "VENUS_DEPOSIT",
     VENUS_REDEEM: "VENUS_REDEEM",
-    ENSO_SWAP: "ENSO_SWAP"
+    ENSO_SWAP: "ENSO_SWAP",
+    LIFI_SWAP : "LIFI_SWAP"
 }
 
 const txnController = (request: any, response: any) => {
@@ -36,6 +37,8 @@ const txnController = (request: any, response: any) => {
                 return getVenusDepositCalldata(request, response);
             case ACTIONS.VENUS_REDEEM:
                 return getVenusRedeemCalldata(request, response);
+            case ACTIONS.LIFI_SWAP:
+                return getLifiSwap(request,response);
             // case ACTIONS.ENSO_SWAP:
             //     return getSwapEnsoCalldata(request, response);
             default:

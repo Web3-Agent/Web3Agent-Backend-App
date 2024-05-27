@@ -7,5 +7,5 @@ const app = createServer();
 
 app.listen(ENV_VARIABLES.PORT, async () => {
   console.log(`Server started on PORT [${ENV_VARIABLES.PORT}]`);
-  // await dbConnect();
+  await dbConnect();
 });
