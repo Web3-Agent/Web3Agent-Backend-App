@@ -1,5 +1,5 @@
 module.exports = {
     apps: [
-        { name: 'task', script: "npm start" }
+        { name: 'Code-Api-Web3Agent', script: "npm start" }
     ]
 }
