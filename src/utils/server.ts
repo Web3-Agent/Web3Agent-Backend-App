@@ -6,7 +6,9 @@ import morgan from "morgan";
 import CompileContractRouter from "../routes/compile-contract";
 import ChatRouter from "../routes/chat";
 import DataApiRouter from "../routes/data-api";
+
 import TxnApiRouter from "../routes/txn-api";
+import HardhatRoute from "../routes/hardhat";
 
 export function createServer() {
   const app: Express = express();
@@ -23,7 +25,9 @@ export function createServer() {
   app.use("/api/v1/compile-contract/", CompileContractRouter);
   app.use("/api/v1/chat/", ChatRouter);
   app.use("/api/v1/data-api/", DataApiRouter);
+
   app.use("/api/v1/calldata/",TxnApiRouter);
+  app.use("/api/v1/hardhat", HardhatRoute)
 
   app.get("/", (request: Request, response: Response) => {
     return response.status(200).json({
