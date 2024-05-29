@@ -16,7 +16,14 @@ export const getApproveERC20TokenCalldata = async (request: Request, response: R
         const erc20Interface = new ethers.Interface(ERC20abi);
         const encodedCall = erc20Interface.encodeFunctionData("approve", [toAddress, amount]);
         console.log(encodedCall);
-        response.status(200).json({ message: "APPROVAL SUCCESS", success: true, data: { calldata: encodedCall, to: fromAddress, from: userAddress, value: 0 } })
+        const txnInfo = {
+            action: "approve",
+            from: userAddress,
+            token: fromAddress,
+            interactedWith: fromAddress,
+            amount: amount
+        }
+        response.status(200).json({ message: "APPROVAL SUCCESS", success: true, data: { calldata: encodedCall, to: fromAddress, from: userAddress, value: 0 ,txnData: txnInfo } })
     } catch (e) {
         response.status(400).json({ message: "APPROVAL FAILED", success: false, data: {} });
         console.log(e);
@@ -29,7 +36,15 @@ export const getSendERC20TokenCalldata = async (request: Request, response: Resp
         const erc20Interface = new ethers.Interface(ERC20abi);
         const encodedCall = erc20Interface.encodeFunctionData("transfer", [toAddress, amount])
         console.log(encodedCall);
-        response.status(200).json({ message: "TRANSFER SUCCESS", success: true, data: { calldata: encodedCall, to: fromAddress, from: userAddress, value: 0 } });
+        const txnInfo = {
+            action: "transfer",
+            from: userAddress,
+            token: fromAddress,
+            interactedWith: fromAddress,
+            toAddress: toAddress,
+            amount: amount
+        }
+        response.status(200).json({ message: "TRANSFER SUCCESS", success: true, data: { calldata: encodedCall, to: fromAddress, from: userAddress, value: 0 ,txnData: txnInfo } });
     } catch (e) {
         response.status(400).json({ message: "TRANSFER FAILED", success: false, data: {} });
         console.log(e);
@@ -38,11 +53,18 @@ export const getSendERC20TokenCalldata = async (request: Request, response: Resp
 
 export const getWrapTokenCalldata = async (request: Request, response: Response) => {
     try {
-        const { userAddress, amount } = request.body;
+        const { userAddress, amount, tokenAddress } = request.body;
         const wETHInterface = new ethers.Interface(WETHabi);
         const encodedCall = wETHInterface.encodeFunctionData("deposit", [])
         console.log(encodedCall);
-        response.status(200).json({ message: "WRAPPING SUCCESS", success: true, data: { calldata: encodedCall, to: CONTRACT_ADDRESSES.WBNB, from: userAddress, value: amount } });
+        const txnInfo = {
+            action: "deposit",
+            from: userAddress,
+            token: tokenAddress,
+            interactedWith: tokenAddress,
+            amount: amount
+        }
+        response.status(200).json({ message: "WRAPPING SUCCESS", success: true, data: { calldata: encodedCall, to: tokenAddress, from: userAddress, value: amount ,txnData: txnInfo } });
     } catch (e) {
         response.status(400).json({ message: "WRAPPING FAILED", success: false, data: {} });
         console.log(e);
@@ -51,11 +73,18 @@ export const getWrapTokenCalldata = async (request: Request, response: Response)
 
 export const getUnwrapTokenCalldata = async (request: Request, response: Response) => {
     try {
-        const { userAddress, amount } = request.body;
+        const { userAddress, amount ,tokenAddress} = request.body;
         const wETHInterface = new ethers.Interface(WETHabi);
         const encodedCall = wETHInterface.encodeFunctionData("withdraw", [amount])
         console.log(encodedCall);
-        response.status(200).json({ message: "UNWRAPPING SUCCESS", success: true, data: { calldata: encodedCall, to: CONTRACT_ADDRESSES.WBNB, from: userAddress, value: 0 } });
+        const txnInfo = {
+            action: "withdraw",
+            from: userAddress,
+            token: tokenAddress,
+            interactedWith: tokenAddress,
+            amount: amount
+        }
+        response.status(200).json({ message: "UNWRAPPING SUCCESS", success: true, data: { calldata: encodedCall, to:tokenAddress, from: userAddress, value: 0 ,txnData: txnInfo} });
     } catch (e) {
         response.status(400).json({ message: "UNWRAPPING FAILED", success: false, data: {} });
         console.log(e);
@@ -69,7 +98,14 @@ export const getSwapErc20TokenToTokenCalldata = async (request: Request, respons
         const pancakeSwapInterface = new ethers.Interface(PancakeSwapAbi);
         const encodedCall = pancakeSwapInterface.encodeFunctionData("swapTokensForExactTokens", [amount, minAmount, [fromToken, toToken], userAddress, (Date.now() + 30).toString()])
         console.log(encodedCall);
-        response.status(200).json({ message: "SWAPPING SUCCESS", success: true, data: { calldata: encodedCall, to: CONTRACT_ADDRESSES.PANCAKESWAP_ROUTER, from: userAddress, value: 0 } });
+        const txnInfo = {
+            action: "swapTokensForExactTokens",
+            from: userAddress,
+            token: fromToken,
+            interactedWith: CONTRACT_ADDRESSES.PANCAKESWAP_ROUTER,
+            amount: amount
+        }
+        response.status(200).json({ message: "SWAPPING SUCCESS", success: true, data: { calldata: encodedCall, to: CONTRACT_ADDRESSES.PANCAKESWAP_ROUTER, from: userAddress, value: 0 ,txnData: txnInfo} });
     } catch (e) {
         response.status(400).json({ message: "SWAPPING FAILED", success: false, data: {} });
         console.log(e);
@@ -82,7 +118,14 @@ export const getVenusDepositCalldata = async (request: Request, response: Respon
         const venusInterface = new ethers.Interface(VenusAbi);
         const encodedCall = venusInterface.encodeFunctionData("mint", [amount])
         console.log(encodedCall);
-        response.status(200).json({ message: "VENUS DEPOSIT SUCCESS", success: true, data: { calldata: encodedCall, to: fromToken, from: userAddress, value: 0 } });
+        const txnInfo = {
+            action: "mint",
+            from: userAddress,
+            token: fromToken,
+            interactedWith: fromToken,
+            amount: amount
+        }
+        response.status(200).json({ message: "VENUS DEPOSIT SUCCESS", success: true, data: { calldata: encodedCall, to: fromToken, from: userAddress, value: 0 ,txnData: txnInfo} });
     } catch (e) {
         response.status(400).json({ message: "VENUS DEPOSIT FAILED", success: false, data: {} });
         console.log(e);
@@ -95,7 +138,14 @@ export const getVenusRedeemCalldata = async (request: Request, response: Respons
         const venusInterface = new ethers.Interface(VenusAbi);
         const encodedCall = venusInterface.encodeFunctionData("redeem", [amount])
         console.log(encodedCall);
-        response.status(200).json({ message: "VENUS DEPOSIT SUCCESS", success: true, data: { calldata: encodedCall, to: fromToken, from: userAddress, value: 0 } });
+        const txnInfo = {
+            action: "redeem",
+            from: userAddress,
+            token: fromToken,
+            interactedWith: fromToken,
+            amount: amount
+        }
+        response.status(200).json({ message: "VENUS DEPOSIT SUCCESS", success: true, data: { calldata: encodedCall, to: fromToken, from: userAddress, value: 0 ,txnData: txnInfo} });
     } catch (e) {
         response.status(400).json({ message: "VENUS DEPOSIT FAILED", success: false, data: {} });
         console.log(e);
@@ -121,7 +171,14 @@ export const getSwapEnsoCalldata = async (request: Request, response: Response) 
             headers: { Authorization: `Bearer ${ENV_VARIABLES.ENSO_API_KEY}` }
         })
         console.log(ensoResponse.data.tx);
-        response.status(200).json({ message: "ENSO SUCCESS", success: true, data: { calldata: ensoResponse.data.tx.data, toAddress: ensoResponse.data.tx.to, from: userAddress, value: ensoResponse.data.tx.value } });
+        const txnInfo = {
+            action: "swap",
+            from: userAddress,
+            token: fromToken,
+            interactedWith: ensoResponse.data.tx.to,
+            amount: amount
+        }
+        response.status(200).json({ message: "ENSO SUCCESS", success: true, data: { calldata: ensoResponse.data.tx.data, toAddress: ensoResponse.data.tx.to, from: userAddress, value: ensoResponse.data.tx.value ,txnData: txnInfo} });
     } catch (e) {
         response.status(400).json({ message: "ENSO FAILED", success: false, data: {} });
         console.log(e);
@@ -130,7 +187,7 @@ export const getSwapEnsoCalldata = async (request: Request, response: Response) 
 
 export const getLifiSwap = async (request: Request, response: Response) => {
     try {
-        const { userAddress, fromChain, toChain, fromToken, toToken, amount, slippage, chainId } = request.body;
+        const { userAddress, fromChain, toChain, fromToken, toToken, amount } = request.body;
         const lifiSwap = await axios.get('https://li.quest/v1/quote', {
             params: {
                 fromChain: fromChain,
@@ -143,7 +200,14 @@ export const getLifiSwap = async (request: Request, response: Response) => {
         }
         );
         console.log(lifiSwap.data.transactionRequest);
-        response.status(200).json({ message: "LIFI SUCCESS", success: true, data: { calldata: lifiSwap.data.transactionRequest.data, toAddress: lifiSwap.data.transactionRequest.to, from: userAddress, value: lifiSwap.data.transactionRequest.value } });
+        const txnInfo = {
+            action: "bridge",
+            from: userAddress,
+            token: fromToken,
+            interactedWith: lifiSwap.data.transactionRequest.to,
+            amount: amount
+        }
+        response.status(200).json({ message: "LIFI SUCCESS", success: true, data: { calldata: lifiSwap.data.transactionRequest.data, toAddress: lifiSwap.data.transactionRequest.to, from: userAddress, value: lifiSwap.data.transactionRequest.value ,txnData: txnInfo} });
     } catch (e) {
         response.status(400).json({ message: "LIFI FAILED", success: false, data: {} });
         console.log(e);
