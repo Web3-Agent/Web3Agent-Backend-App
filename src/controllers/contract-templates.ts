@@ -8,7 +8,7 @@ import { CustomRequest } from "../types/customRequest";
 export const getContractTemplates = async (request: CustomRequest, response: Response) => {
     try {
         const query: any = { isActive: true };
-        const { tags, title, description } = request.body;
+        const { tags, title, description } = request.query;
         if (title) {
             query.title = { '$regex': title, $options: 'i' }
         };
