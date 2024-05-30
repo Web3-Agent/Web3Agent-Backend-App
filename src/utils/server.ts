@@ -9,6 +9,7 @@ import DataApiRouter from "../routes/data-api";
 
 import TxnApiRouter from "../routes/txn-api";
 import HardhatRoute from "../routes/hardhat";
+import ContractTemplatesRouter from "../routes/contract-templates";
 
 export function createServer() {
   const app: Express = express();
@@ -26,8 +27,10 @@ export function createServer() {
   app.use("/api/v1/chat/", ChatRouter);
   app.use("/api/v1/data-api/", DataApiRouter);
 
-  app.use("/api/v1/calldata/",TxnApiRouter);
-  app.use("/api/v1/hardhat", HardhatRoute)
+  app.use("/api/v1/calldata/", TxnApiRouter);
+  app.use("/api/v1/hardhat", HardhatRoute);
+  app.use("/api/v1/contract-templates", ContractTemplatesRouter);
+
 
   app.get("/", (request: Request, response: Response) => {
     return response.status(200).json({

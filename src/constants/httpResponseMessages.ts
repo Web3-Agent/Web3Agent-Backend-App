@@ -36,6 +36,12 @@ const HTTP_RESPONSE_MESSAGES = {
   NO_NETWORK_CONFIG_FOUND: "No network config found!",
   TOKEN_BALANCE_FETCHED: 'Token balance successfully fetched!',
   LATEST_TOKEN_FETCHED: 'Latest tokens successfully fetched!',
+  CONTRACT_TEMPLATES_FETCH_FAILED: 'Contract templates fetch failed!',
+  CONTRACT_TEMPLATES_FETCH_SUCCESS: 'Contract templates successfully fetched!',
+  CONTRACT_TEMPLATE_FETCH_SUCCESS: 'Contract template successfully fetched!',
+  CONTRACT_TEMPLATE_CREATE_SUCCESS: 'Contract template successfully created!',
+  CONTRACT_TEMPLATE_UPDATE_SUCCESS: 'Contract template successfully updated!',
+  CONTRACT_TEMPLATE_DELETE_SUCCESS: 'Contract template successfully deleted!',
 };
 
 export default HTTP_RESPONSE_MESSAGES;
