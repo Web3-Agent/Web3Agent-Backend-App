@@ -225,10 +225,10 @@ export const getLimitOrderApi = async (request: Request, response: Response) => 
             action: "createOrder",
             from: userAddress,
             token: fromToken,
-            interactedWith: "0xC4a88B919E1D9D063feE42b0C798a17e5De3B8F7",
+            interactedWith: "0x2535c8ceFD2dF5B8eED094d439512B8679543b6e",
             amount: amount
         }
-        response.status(200).json({ message: "LIMIT_ORDER SUCCESS", success: true, data: { calldata: encodedCall, to: "0xC4a88B919E1D9D063feE42b0C798a17e5De3B8F7", from: userAddress, value: 0 ,txnData: txnInfo} });
+        response.status(200).json({ message: "LIMIT_ORDER SUCCESS", success: true, data: { calldata: encodedCall, to: "0x2535c8ceFD2dF5B8eED094d439512B8679543b6e", from: userAddress, value: 0 ,txnData: txnInfo} });
     } catch (e) {
         response.status(400).json({ message: "LIMIT_ORDER FAILED", success: false, data: {} });
         console.log(e);
