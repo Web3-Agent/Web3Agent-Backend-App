@@ -3,6 +3,7 @@ import { ERC20abi } from "../constants/abi/ERC20-ABI";
 import { WETHabi } from "../constants/abi/WETH-ABI";
 import { PancakeSwapAbi } from "../constants/abi/PancakeSwap-ABI";
 import { VenusAbi } from "../constants/abi/Venus-ABI";
+import { LimitOrderAbi } from "../constants/abi/LimitOrder-ABI";
 import { Request, Response } from "express";
 import { CONTRACT_ADDRESSES } from "../constants/contractAddresses";
 import { ENV_VARIABLES } from "../configurations/env";
@@ -210,6 +211,26 @@ export const getLifiSwap = async (request: Request, response: Response) => {
         response.status(200).json({ message: "LIFI SUCCESS", success: true, data: { calldata: lifiSwap.data.transactionRequest.data, toAddress: lifiSwap.data.transactionRequest.to, from: userAddress, value: lifiSwap.data.transactionRequest.value ,txnData: txnInfo} });
     } catch (e) {
         response.status(400).json({ message: "LIFI FAILED", success: false, data: {} });
+        console.log(e);
+    }
+}
+
+export const getLimitOrderApi = async (request: Request, response: Response) => {
+    try {
+        const { userAddress, fromToken, toToken, amount, slippage, price } = request.body;
+        const limitOrderInterface = new ethers.Interface(LimitOrderAbi);
+        const encodedCall = limitOrderInterface.encodeFunctionData("createOrder", [price,amount,fromToken,toToken,"300",slippage])
+        console.log(encodedCall);
+        const txnInfo = {
+            action: "createOrder",
+            from: userAddress,
+            token: fromToken,
+            interactedWith: "0x2535c8ceFD2dF5B8eED094d439512B8679543b6e",
+            amount: amount
+        }
+        response.status(200).json({ message: "LIMIT_ORDER SUCCESS", success: true, data: { calldata: encodedCall, to: "0x2535c8ceFD2dF5B8eED094d439512B8679543b6e", from: userAddress, value: 0 ,txnData: txnInfo} });
+    } catch (e) {
+        response.status(400).json({ message: "LIMIT_ORDER FAILED", success: false, data: {} });
         console.log(e);
     }
 }
