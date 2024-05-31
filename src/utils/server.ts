@@ -10,6 +10,7 @@ import DataApiRouter from "../routes/data-api";
 import TxnApiRouter from "../routes/txn-api";
 import HardhatRoute from "../routes/hardhat";
 import ContractTemplatesRouter from "../routes/contract-templates";
+import ImageGeneratorRoute from "../routes/image-generator";
 
 export function createServer() {
   const app: Express = express();
@@ -30,6 +31,7 @@ export function createServer() {
   app.use("/api/v1/calldata/", TxnApiRouter);
   app.use("/api/v1/hardhat", HardhatRoute);
   app.use("/api/v1/contract-templates", ContractTemplatesRouter);
+  app.use("/api/v1/image-generator", ImageGeneratorRoute);
 
 
   app.get("/", (request: Request, response: Response) => {
