@@ -8,6 +8,8 @@ import { getBlockDetailsByNumber } from "../controllers/block-details";
 import { getGasPrice } from "../controllers/gas-price";
 import { getTokenBalanceForAddress } from "../controllers/token-balance";
 import { getLatestTokenList } from "../controllers/tokenList";
+import { getTokenScore } from "../controllers/token-score";
+import { getBlockchains } from "../controllers/blockchain";
 
 const DataApiRouter: Router = Router();
 
@@ -17,6 +19,8 @@ const ACTIONS = {
     GAS_PRICE: 'GAS_PRICE',
     TOKEN_BALANCE_FOR_ADDRESS: 'TOKEN_BALANCE_FOR_ADDRESS',
     LATEST_TOKEN_LIST: 'LATEST_TOKEN_LIST',
+    TOKEN_SCORE: 'TOKEN_SCORE',
+    BLOCKCHAIN_LIST: 'BLOCKCHAIN_LIST'
 }
 
 const navigateController = (request: CustomRequest, response: Response) => {
@@ -34,6 +38,10 @@ const navigateController = (request: CustomRequest, response: Response) => {
                 return getTokenBalanceForAddress(request, response);
             case ACTIONS.LATEST_TOKEN_LIST:
                 return getLatestTokenList(request, response);
+            case ACTIONS.TOKEN_SCORE:
+                return getTokenScore(request, response);
+            case ACTIONS.BLOCKCHAIN_LIST:
+                return getBlockchains(request, response);
             default:
                 return response.status(400).json({
                     success: false,

@@ -3,4 +3,5 @@ export const DATA_PROVIDER_MAPPING = {
     COVALENTHQ: 'covalent',
     BLOCKPI: 'blockpi',
     COIN_MARKET_CAP: 'coinmarketcap',
+    DEX_TOOLS: 'dextools',
 }
