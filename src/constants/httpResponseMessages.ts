@@ -42,6 +42,8 @@ const HTTP_RESPONSE_MESSAGES = {
   CONTRACT_TEMPLATE_CREATE_SUCCESS: 'Contract template successfully created!',
   CONTRACT_TEMPLATE_UPDATE_SUCCESS: 'Contract template successfully updated!',
   CONTRACT_TEMPLATE_DELETE_SUCCESS: 'Contract template successfully deleted!',
+  TOKEN_SCORE_FETCHED: 'Token score successfully fetched!',
+
 };
 
 export default HTTP_RESPONSE_MESSAGES;
