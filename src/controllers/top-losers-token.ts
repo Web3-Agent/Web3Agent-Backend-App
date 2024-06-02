@@ -4,7 +4,7 @@ import { CustomRequest } from "../types/customRequest";
 import HTTP_RESPONSE_MESSAGES from "../constants/httpResponseMessages";
 import { DATA_PROVIDER_MAPPING } from "../constants/dataProvider";
 
-export const getTokenScore = async (
+export const getTopLosersTokens = async (
     request: CustomRequest,
     response: Response
 ) => {
@@ -12,13 +12,13 @@ export const getTokenScore = async (
         const { body } = request;
         let {
             provider,
-            query: { network, token, },
+            query: { network, period = "24h", },
         } = body;
         switch (provider) {
             case DATA_PROVIDER_MAPPING.DEX_TOOLS: {
 
                 const { data } = await axios.get(
-                    `https://api.dextools.io/v2/token/${network}/${token}/score`,
+                    `https://api.dextools.io/v2/ranking/${network}/losers?period=${period}`,
                     { headers: { 'X-API-Key': process.env.DEX_TOOLS_API_KEY } }
                 );
                 if (!data) {
@@ -50,4 +50,4 @@ export const getTokenScore = async (
             });
     }
 };
-export default { getTokenScore };
+export default { getTopLosersTokens };
