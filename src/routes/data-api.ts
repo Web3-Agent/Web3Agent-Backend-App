@@ -10,6 +10,9 @@ import { getTokenBalanceForAddress } from "../controllers/token-balance";
 import { getLatestTokenList } from "../controllers/tokenList";
 import { getTokenScore } from "../controllers/token-score";
 import { getBlockchains } from "../controllers/blockchain";
+import { getPoolLiquidityScore } from "../controllers/pool-liquidity-score";
+import { getTopGainerTokens } from "../controllers/top-gainer-token";
+import { getTopLosersTokens } from "../controllers/top-losers-token";
 
 const DataApiRouter: Router = Router();
 
@@ -20,7 +23,10 @@ const ACTIONS = {
     TOKEN_BALANCE_FOR_ADDRESS: 'TOKEN_BALANCE_FOR_ADDRESS',
     LATEST_TOKEN_LIST: 'LATEST_TOKEN_LIST',
     TOKEN_SCORE: 'TOKEN_SCORE',
-    BLOCKCHAIN_LIST: 'BLOCKCHAIN_LIST'
+    BLOCKCHAIN_LIST: 'BLOCKCHAIN_LIST',
+    POOL_LIQUIDITY_SCORE: 'POOL_LIQUIDITY_SCORE',
+    TOP_GAINER_TOKENS: 'TOP_GAINER_TOKENS',
+    TOP_LOSER_TOKENS: 'TOP_LOSER_TOKENS',
 }
 
 const navigateController = (request: CustomRequest, response: Response) => {
@@ -42,6 +48,12 @@ const navigateController = (request: CustomRequest, response: Response) => {
                 return getTokenScore(request, response);
             case ACTIONS.BLOCKCHAIN_LIST:
                 return getBlockchains(request, response);
+            case ACTIONS.POOL_LIQUIDITY_SCORE:
+                return getPoolLiquidityScore(request, response);
+            case ACTIONS.TOP_GAINER_TOKENS:
+                return getTopGainerTokens(request, response);
+            case ACTIONS.TOP_LOSER_TOKENS:
+                return getTopLosersTokens(request, response);
             default:
                 return response.status(400).json({
                     success: false,
