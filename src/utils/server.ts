@@ -11,6 +11,7 @@ import TxnApiRouter from "../routes/txn-api";
 import HardhatRoute from "../routes/hardhat";
 import ContractTemplatesRouter from "../routes/contract-templates";
 import ImageGeneratorRoute from "../routes/image-generator";
+import ChatHistoryRouter from "../routes/chat-history";
 
 export function createServer() {
   const app: Express = express();
@@ -32,6 +33,7 @@ export function createServer() {
   app.use("/api/v1/hardhat", HardhatRoute);
   app.use("/api/v1/contract-templates", ContractTemplatesRouter);
   app.use("/api/v1/image-generator", ImageGeneratorRoute);
+  app.use("/api/v1/chat-history", ChatHistoryRouter);
 
 
   app.get("/", (request: Request, response: Response) => {

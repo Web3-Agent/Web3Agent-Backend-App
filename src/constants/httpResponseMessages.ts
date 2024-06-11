@@ -43,7 +43,14 @@ const HTTP_RESPONSE_MESSAGES = {
   CONTRACT_TEMPLATE_UPDATE_SUCCESS: 'Contract template successfully updated!',
   CONTRACT_TEMPLATE_DELETE_SUCCESS: 'Contract template successfully deleted!',
   TOKEN_SCORE_FETCHED: 'Token score successfully fetched!',
-
+  CHAT_HISTORY_FETCH_FAILED: 'Chat history fetch failed!',
+  CHAT_HISTORY_FETCH_SUCCESS: 'Chat history successfully fetched!',
+  CHAT_HISTORY_CREATE_SUCCESS: 'Chat history successfully created!',
+  CHAT_HISTORY_CREATE_FAILED: 'Chat history creation failed!',
+  CHAT_HISTORY_UPDATE_SUCCESS: 'Chat history successfully updated!',
+  CHAT_HISTORY_DELETE_SUCCESS: 'Chat history successfully deleted!',
+  CHAT_HISTORY_DELETE_FAILURE: 'Chat history deletion failed!',
+  ID_REQUIRED: 'ID is required!',
 };
 
 export default HTTP_RESPONSE_MESSAGES;
