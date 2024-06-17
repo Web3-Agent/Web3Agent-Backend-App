@@ -12,6 +12,7 @@ import HardhatRoute from "../routes/hardhat";
 import ContractTemplatesRouter from "../routes/contract-templates";
 import ImageGeneratorRoute from "../routes/image-generator";
 import ChatHistoryRouter from "../routes/chat-history";
+import unstoppableRouter from "../routes/unstoppable";
 
 export function createServer() {
   const app: Express = express();
@@ -34,6 +35,7 @@ export function createServer() {
   app.use("/api/v1/contract-templates", ContractTemplatesRouter);
   app.use("/api/v1/image-generator", ImageGeneratorRoute);
   app.use("/api/v1/chat-history", ChatHistoryRouter);
+  app.use("/api/v1/unstoppable", unstoppableRouter);
 
 
   app.get("/", (request: Request, response: Response) => {

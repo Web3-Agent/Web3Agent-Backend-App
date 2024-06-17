@@ -46,5 +46,6 @@ export const ENV_VARIABLES: any = {
     NEXT_PUBLIC_COVALENT_KEY: process.env.NEXT_PUBLIC_COVALENT_KEY,
     COVALENT_API_KEY: process.env.COVALENT_API_KEY,
     X_CMC_PRO_API_KEY: process.env.X_CMC_PRO_API_KEY,
-    ENSO_API_KEY: process.env.ENSO_API_KEY
+    ENSO_API_KEY: process.env.ENSO_API_KEY,
+    UNSTOPPABLE_TOKEN: process.env.UNSTOPPABLE_TOKEN
 }

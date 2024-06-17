@@ -51,6 +51,7 @@ const HTTP_RESPONSE_MESSAGES = {
   CHAT_HISTORY_DELETE_SUCCESS: 'Chat history successfully deleted!',
   CHAT_HISTORY_DELETE_FAILURE: 'Chat history deletion failed!',
   ID_REQUIRED: 'ID is required!',
+  ACTION_SUCCESS: 'Request fulfilled!',
 };
 
 export default HTTP_RESPONSE_MESSAGES;
