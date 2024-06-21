@@ -40,6 +40,7 @@ export function createServer() {
   app.use("/api/v1/unstoppable", unstoppableRouter);
   /** TELEGRAM POC STARTS HERE */
   bot.start((ctx) => {
+    console.log('TELEGRAM ctx👉🏻 : ',);
     ctx.reply('Welcome! Click the link below to open the app:-', {
       reply_markup: {
         keyboard: [[{ text: 'Web App', web_app: { url: 'https://my-telegram-bot-ruby.vercel.app' } }]]
