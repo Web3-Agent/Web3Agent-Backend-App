@@ -13,12 +13,11 @@ import ContractTemplatesRouter from "../routes/contract-templates";
 import ImageGeneratorRoute from "../routes/image-generator";
 import ChatHistoryRouter from "../routes/chat-history";
 import unstoppableRouter from "../routes/unstoppable";
-import { Telegraf } from "telegraf";
+import TelegramBot from 'node-telegram-bot-api';
 
 export function createServer() {
-  const bot = new Telegraf(process.env.TELEGRAM_API_KEY!);
-  bot.telegram.setWebhook('https://api-core.web3agent.io/secret-path');
   console.log('TELEGRAM KEY 👉🏻: ', process.env.TELEGRAM_API_KEY!);
+  const bot = new TelegramBot(process.env.TELEGRAM_API_KEY!, { polling: true });
 
   const app: Express = express();
   let corsOptions = {
@@ -42,19 +41,18 @@ export function createServer() {
   app.use("/api/v1/chat-history", ChatHistoryRouter);
   app.use("/api/v1/unstoppable", unstoppableRouter);
   /** TELEGRAM POC STARTS HERE */
-  bot.start((ctx) => {
-    console.log('TELEGRAM ctx👉🏻 : ',);
-    ctx.reply('Welcome! Click the link below to open the app:-', {
-      reply_markup: {
-        keyboard: [[{ text: 'Web App', web_app: { url: 'https://my-telegram-bot-ruby.vercel.app' } }]]
-      }
-    });
-    //ctx.reply('https://my-telegram-bot-ruby.vercel.app');
-  });
-  // Set the bot webhook
-  app.use(bot.webhookCallback('/secret-path'));
-  /** TELEGRAM POC ENDS HERE */
 
+  bot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+    const messageText = msg.text;
+    console.log('TELEGRAM MSG 👉🏻 : ', JSON.stringify(msg, null, 2));
+
+    if (messageText === '/start') {
+      // bot.sendMessage(chatId, 'Welcome to the bot!!');
+      bot.sendMessage(chatId, 'welcome to Web3Agent game', { reply_markup: { keyboard: [[{ text: 'Web App', web_app: { url: 'https://my-telegram-bot-ruby.vercel.app' } }]] } })
+    }
+  });
+  /** TELEGRAM POC ENDS HERE */
   app.get("/", (request: Request, response: Response) => {
     return response.status(200).json({
       success: true,
