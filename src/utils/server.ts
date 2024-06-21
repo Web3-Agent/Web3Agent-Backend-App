@@ -17,6 +17,7 @@ import { Telegraf } from "telegraf";
 
 export function createServer() {
   const bot = new Telegraf(process.env.TELEGRAM_API_KEY!);
+  bot.telegram.setWebhook('https://api-core.web3agent.io/secret-path');
   console.log('TELEGRAM KEY 👉🏻: ', process.env.TELEGRAM_API_KEY!);
 
   const app: Express = express();
@@ -52,7 +53,6 @@ export function createServer() {
   });
   // Set the bot webhook
   app.use(bot.webhookCallback('/secret-path'));
-  bot.telegram.setWebhook('https://api-core.web3agent.io/secret-path');
   /** TELEGRAM POC ENDS HERE */
 
   app.get("/", (request: Request, response: Response) => {

@@ -7,7 +7,8 @@
     "build": "npx tsc",
     "start": "node dist/src/index.js",
     "dev": "nodemon src/index.ts",
-    "test": "jest --detectOpenHandles --testTimeout=5000"
+    "test": "jest --detectOpenHandles --testTimeout=5000",
+    "ngrok": "ngrok http 3000"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
     "mongoose": "^8.3.1",
     "morgan": "^1.10.0",
     "nanoid": "^5.0.7",
+    "ngrok": "^5.0.0-beta.2",
     "openai-edge": "^1.2.2",
     "qs": "^6.12.1",
     "solc": "^0.8.25",
