@@ -13,8 +13,10 @@ import ContractTemplatesRouter from "../routes/contract-templates";
 import ImageGeneratorRoute from "../routes/image-generator";
 import ChatHistoryRouter from "../routes/chat-history";
 import unstoppableRouter from "../routes/unstoppable";
+import { Telegraf } from "telegraf";
 
 export function createServer() {
+  const bot = new Telegraf(process.env.TELEGRAM_API_KEY!);
   const app: Express = express();
   let corsOptions = {
     origin: "*",
@@ -36,7 +38,19 @@ export function createServer() {
   app.use("/api/v1/image-generator", ImageGeneratorRoute);
   app.use("/api/v1/chat-history", ChatHistoryRouter);
   app.use("/api/v1/unstoppable", unstoppableRouter);
-
+  /** TELEGRAM POC STARTS HERE */
+  bot.start((ctx) => {
+    ctx.reply('Welcome! Click the link below to open the app:-', {
+      reply_markup: {
+        keyboard: [[{ text: 'Web App', web_app: { url: 'https://my-telegram-bot-ruby.vercel.app' } }]]
+      }
+    });
+    //ctx.reply('https://my-telegram-bot-ruby.vercel.app');
+  });
+  // Set the bot webhook
+  app.use(bot.webhookCallback('/secret-path'));
+  bot.telegram.setWebhook('https://api-core.web3agent.io/secret-path');
+  /** TELEGRAM POC ENDS HERE */
 
   app.get("/", (request: Request, response: Response) => {
     return response.status(200).json({
