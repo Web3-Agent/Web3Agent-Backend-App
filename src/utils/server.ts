@@ -17,6 +17,8 @@ import { Telegraf } from "telegraf";
 
 export function createServer() {
   const bot = new Telegraf(process.env.TELEGRAM_API_KEY!);
+  console.log('TELEGRAM KEY 👉🏻: ', process.env.TELEGRAM_API_KEY!);
+
   const app: Express = express();
   let corsOptions = {
     origin: "*",
