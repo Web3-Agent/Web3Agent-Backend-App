@@ -49,7 +49,7 @@ export function createServer() {
 
     if (messageText === '/start') {
       // bot.sendMessage(chatId, 'Welcome to the bot!!');
-      bot.sendMessage(chatId, 'welcome to Web3Agent game', { reply_markup: { keyboard: [[{ text: 'Web App', web_app: { url: 'https://my-telegram-bot-ruby.vercel.app' } }]] } })
+      bot.sendMessage(chatId, 'welcome to P-Tap. A product of Web3Agent. Click to play button to start game.')
     }
   });
   /** TELEGRAM POC ENDS HERE */
