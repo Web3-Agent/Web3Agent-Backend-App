@@ -3,29 +3,41 @@ import axios from "axios";
 import { CustomRequest } from "../../types/customRequest";
 import HTTP_RESPONSE_MESSAGES from "../../constants/httpResponseMessages";
 
-export const getUsersByFID = async (
+export const getUserStorageAllocation = async (
     request: CustomRequest,
     response: Response
 ) => {
     try {
         const { body } = request;
         let {
-            query: { fids = "", viewer_fid, },
+            query: { username = "", limit = 1 },
         } = body;
-        if (!fids || !viewer_fid) {
-            throw new Error('Username/Viewer fid is missing');
+        if (!username) {
+            throw new Error('Username fid is missing');
         }
         const { data } = await axios.get(
-            `https://api.neynar.com/v2/farcaster/user/bulk?&fids=${parseInt(fids)}`,
+            `https://api.neynar.com/v2/farcaster/user/search?&limit=${limit}&q=${username}`,
             { headers: { 'api_key': process.env.NEYNAR_API_KEY } }
         );
-        if (!data) {
+        if (!data?.result?.users?.length) {
             throw new Error(HTTP_RESPONSE_MESSAGES.NO_DATA_FOUND);
         }
+        const user = data?.result?.users[0];
+        let storage = await axios.get(
+            `https://api.neynar.com/v2/farcaster/storage/allocations?fid=${user.fid}`,
+            { headers: { 'api_key': process.env.NEYNAR_API_KEY } }
+        );
+        const {
+            allocations, total_active_units
+        } = storage.data;
         return response.status(200).json({
             success: true,
             message: HTTP_RESPONSE_MESSAGES.REQUEST_SUCCESSFULLY,
-            data: data?.users.length ? data?.users[0] : {},
+            data: {
+                user,
+                allocations,
+                total_active_units,
+            },
             request: body,
         });
     } catch (error: any) {
@@ -37,4 +49,4 @@ export const getUsersByFID = async (
             });
     }
 };
-export default { getUsersByFID };
+export default { getUserStorageAllocation };

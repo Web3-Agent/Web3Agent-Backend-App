@@ -16,7 +16,7 @@ export const getFollowersByFID = async (
             throw new Error('Username/Viewer fid is missing');
         }
         const { data } = await axios.get(
-            `https://api.neynar.com/v2/farcaster/followers?viewer_fid=${viewer_fid}&fid=${parseInt(fid)}`,
+            `https://api.neynar.com/v2/farcaster/followers?fid=${parseInt(fid)}`,
             { headers: { 'api_key': process.env.NEYNAR_API_KEY } }
         );
         if (!data) {

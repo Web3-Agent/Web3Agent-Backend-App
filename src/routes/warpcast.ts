@@ -4,6 +4,8 @@ import { getUsersByUsername } from "../controllers/warpcast/usernames";
 import { getUsersByFID } from "../controllers/warpcast/usersByFID";
 import { getFollowersByFID } from "../controllers/warpcast/followersByFID";
 import { createPost } from "../controllers/warpcast/createPost";
+import { getUserStorageAllocation } from "../controllers/warpcast/userStorageAllocation";
+import { getUserStorageUsage } from "../controllers/warpcast/userStorageUsage";
 
 const WarpcastRouter: Router = Router();
 
@@ -12,6 +14,8 @@ const ACTIONS = {
     FETCH_USER_DETAILS_BY_GIVEN_FID: 'FETCH_USER_DETAILS_BY_GIVEN_FID',
     FOLLOWERS_BY_FID: 'FOLLOWERS_BY_FID',
     CREATE_POST: 'CREATE_POST',
+    FETCH_USER_STORAGE_ALLOCATION_BY_GIVEN_USERNAME: 'FETCH_USER_STORAGE_ALLOCATION_BY_GIVEN_USERNAME',
+    FETCH_USER_STORAGE_USAGE_BY_GIVEN_USERNAME: 'FETCH_USER_STORAGE_USAGE_BY_GIVEN_USERNAME',
 }
 
 const navigateController = (request: CustomRequest, response: Response) => {
@@ -27,6 +31,10 @@ const navigateController = (request: CustomRequest, response: Response) => {
                 return getFollowersByFID(request, response);
             case ACTIONS.CREATE_POST:
                 return createPost(request, response);
+            case ACTIONS.FETCH_USER_STORAGE_ALLOCATION_BY_GIVEN_USERNAME:
+                return getUserStorageAllocation(request, response);
+            case ACTIONS.FETCH_USER_STORAGE_USAGE_BY_GIVEN_USERNAME:
+                return getUserStorageUsage(request, response);
             default:
                 return response.status(400).json({
                     success: false,
