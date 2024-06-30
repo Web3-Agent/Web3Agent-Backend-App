@@ -1,4 +1,5 @@
 const HTTP_RESPONSE_MESSAGES = {
+  REQUEST_SUCCESSFULLY: "Request successful",
   SERVER_UP_AND_RUNNING: "Server up and running ✌️✌️✌️",
   BAD_REQUEST: "Bad request, please try again!",
   INTERNAL_SERVER_ERROR: "Internal Server Error!",

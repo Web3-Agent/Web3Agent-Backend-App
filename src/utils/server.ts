@@ -14,6 +14,7 @@ import ImageGeneratorRoute from "../routes/image-generator";
 import ChatHistoryRouter from "../routes/chat-history";
 import unstoppableRouter from "../routes/unstoppable";
 import TelegramBot from 'node-telegram-bot-api';
+import WarpcastRouter from "../routes/warpcast";
 
 export function createServer() {
   console.log('TELEGRAM KEY 👉🏻: ', process.env.TELEGRAM_API_KEY!);
@@ -40,6 +41,7 @@ export function createServer() {
   app.use("/api/v1/image-generator", ImageGeneratorRoute);
   app.use("/api/v1/chat-history", ChatHistoryRouter);
   app.use("/api/v1/unstoppable", unstoppableRouter);
+  app.use("/api/v1/warpcast", WarpcastRouter);
   /** TELEGRAM POC STARTS HERE */
 
   bot.on('message', (msg) => {
