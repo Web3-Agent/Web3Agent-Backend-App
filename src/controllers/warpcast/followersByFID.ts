@@ -10,10 +10,10 @@ export const getFollowersByFID = async (
     try {
         const { body } = request;
         let {
-            query: { fid = "", viewer_fid, },
+            query: { fid = "", },
         } = body;
-        if (!fid || !viewer_fid) {
-            throw new Error('Username/Viewer fid is missing');
+        if (!fid) {
+            throw new Error('fid is missing');
         }
         const { data } = await axios.get(
             `https://api.neynar.com/v2/farcaster/followers?fid=${parseInt(fid)}`,

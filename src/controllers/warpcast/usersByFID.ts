@@ -10,9 +10,9 @@ export const getUsersByFID = async (
     try {
         const { body } = request;
         let {
-            query: { fids = "", viewer_fid, },
+            query: { fids = "", },
         } = body;
-        if (!fids || !viewer_fid) {
+        if (!fids) {
             throw new Error('Username/Viewer fid is missing');
         }
         const { data } = await axios.get(

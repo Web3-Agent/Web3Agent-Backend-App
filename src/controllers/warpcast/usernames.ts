@@ -10,10 +10,10 @@ export const getUsersByUsername = async (
     try {
         const { body } = request;
         let {
-            query: { username = "", viewer_fid, limit = 10 },
+            query: { username = "", limit = 10 },
         } = body;
-        if (!username?.length || !viewer_fid) {
-            throw new Error('Username/Viewer fid is missing');
+        if (!username?.length) {
+            throw new Error('Username fid is missing');
         }
         const { data } = await axios.get(
             `https://api.neynar.com/v2/farcaster/user/search?&limit=${limit}&q=${username}`,
